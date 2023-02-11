@@ -8,16 +8,19 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Chatbotserver {
+
+public class Chatbotserver extends Thread{
 
     public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(9090)) {
+            System.out.println("Chatbot se esta ejecutando en el puerto 9090");
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 new Thread(new ClientHandler(clientSocket)).start();
+                System.out.println("Nuevo cliente conectado");    
             }
         } catch (IOException e) {
-            System.out.println("Error occurred while starting the server: " + e.getMessage());
+            System.out.println("Error durante el inicio del servidor: " + e.getMessage());
         }
     }
     
@@ -49,14 +52,14 @@ public class Chatbotserver {
                     case "5":
                     	InetAddress IP=InetAddress.getLocalHost();
                     	System.out.println(IP.toString());
-                        out.println("Mi IP es " + IP.toString());
+                        out.println("Tu IP es " + IP.toString());
                         break;
                     default:
                         out.println("Opción invalida, eliga un numero del 1-5 o escriba \"exit\" para salir");
                         break;
                 }
             } catch (IOException e) {
-                System.out.println("Ha ocurrido un error en el comunicación con el client: " + e.getMessage());
+                System.out.println("Ha ocurrido un error en el comunicación con el cliente: " + e.getMessage());
             }
         }
     }
